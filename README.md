@@ -2,7 +2,7 @@
 [![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/open-source.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
 
 [![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/mInT-runs/JdbcPoolFrameworkHandler?include_prereleases&style=for-the-badge)](https://github.com/mInT-runs/JdbcPoolFrameworkHandler/releases) ![GitHub lines)](https://img.shields.io/tokei/lines/github/mInT-runs/JdbcPoolFrameworkHandler?color=yellow&style=for-the-badge) ![GitHub language)](https://img.shields.io/github/languages/top/mInT-runs/JdbcPoolFrameworkHandler?color=red&style=for-the-badge) ![GitHub bytes)](https://img.shields.io/github/languages/code-size/mInT-runs/JdbcPoolFrameworkHandler?color=orange&style=for-the-badge) ![GitHub language count](https://img.shields.io/github/languages/count/mInT-runs/JdbcPoolFrameworkHandler?style=for-the-badge) 
-#### A async fork of Daschi1's JavaMySQLAPI "https://github.com/Daschi1/JavaMySQLAPI" with a small modification ;)
+#### An simplify library to create jdbc pools via HikariCP. The Statement/PreparedStatement methods are performed asynchronously 
 # Features
 # Implemented JDBC Frameworks
 #### [HikariCP](https://github.com/brettwooldridge/HikariCP)
