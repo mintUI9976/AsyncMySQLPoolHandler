@@ -126,7 +126,7 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
         return CompletableFuture.supplyAsync(() -> this.queryInstantLastBooleanResult(sql, resultColumn));
     }
 
-    public CompletableFuture<Object> executeQueryInstantFirstResultAsBooleanAsync(@NotNull final String sql, @NotNull final String resultColumn) {
+    public CompletableFuture<Boolean> executeQueryInstantFirstResultAsBooleanAsync(@NotNull final String sql, @NotNull final String resultColumn) {
         return CompletableFuture.supplyAsync(() -> this.queryInstantFirstBooleanResult(sql, resultColumn));
     }
 
@@ -269,7 +269,7 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
                 }
             }
         } else {
-            return (this.closePool() && this.openPool()) && this.queryInstantLastBooleanResult(sql, resultColumn);
+            return (this.closePool() && this.openPool()) && this.queryInstantFirstBooleanResult(sql, resultColumn);
         }
         return false;
     }
