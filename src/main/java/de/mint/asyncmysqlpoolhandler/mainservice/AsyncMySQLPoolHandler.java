@@ -122,6 +122,14 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
         return CompletableFuture.supplyAsync(() -> this.queryInstantFirstObjectResult(sql, resultColumn));
     }
 
+    public CompletableFuture<Boolean> executeQueryInstantLastResultAsBooleanAsync(@NotNull final String sql, @NotNull final String resultColumn) {
+        return CompletableFuture.supplyAsync(() -> this.queryInstantLastBooleanResult(sql, resultColumn));
+    }
+
+    public CompletableFuture<Object> executeQueryInstantFirstResultAsBooleanAsync(@NotNull final String sql, @NotNull final String resultColumn) {
+        return CompletableFuture.supplyAsync(() -> this.queryInstantFirstBooleanResult(sql, resultColumn));
+    }
+
     public CompletableFuture<Boolean> executeQueryInstantNextResultAsync(@NotNull final String sql) {
         return CompletableFuture.supplyAsync(() -> this.queryInstantNextBooleanResult(sql));
     }
@@ -208,6 +216,62 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
             return this.closePool() && this.openPool() ? this.queryInstantLastObjectResult(sql, resultColumn) : null;
         }
         return null;
+    }
+
+    protected boolean queryInstantLastBooleanResult(final String sql, final String resultColumn) {
+        if (this.isPoolOpen()) {
+            if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
+                try (final Connection connection = this.hikariDataSource.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                    final ResultSet resultSet = preparedStatement.executeQuery();
+                    final CachedRowSet cachedRowSet = RowSetProvider.newFactory().createCachedRowSet();
+                    cachedRowSet.populate(resultSet);
+                    preparedStatement.close();
+                    resultSet.close();
+                    if (cachedRowSet.last()) {
+                        final boolean aBoolean = cachedRowSet.getBoolean(resultColumn);
+                        cachedRowSet.close();
+                        return aBoolean;
+                    } else {
+                        cachedRowSet.close();
+                        return false;
+                    }
+                } catch (final SQLException exception) {
+                    exception.printStackTrace();
+                    return false;
+                }
+            }
+        } else {
+            return (this.closePool() && this.openPool()) && this.queryInstantLastBooleanResult(sql, resultColumn);
+        }
+        return false;
+    }
+
+    protected boolean queryInstantFirstBooleanResult(final String sql, final String resultColumn) {
+        if (this.isPoolOpen()) {
+            if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
+                try (final Connection connection = this.hikariDataSource.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                    final ResultSet resultSet = preparedStatement.executeQuery();
+                    final CachedRowSet cachedRowSet = RowSetProvider.newFactory().createCachedRowSet();
+                    cachedRowSet.populate(resultSet);
+                    preparedStatement.close();
+                    resultSet.close();
+                    if (cachedRowSet.first()) {
+                        final boolean aBoolean = cachedRowSet.getBoolean(resultColumn);
+                        cachedRowSet.close();
+                        return aBoolean;
+                    } else {
+                        cachedRowSet.close();
+                        return false;
+                    }
+                } catch (final SQLException exception) {
+                    exception.printStackTrace();
+                    return false;
+                }
+            }
+        } else {
+            return (this.closePool() && this.openPool()) && this.queryInstantLastBooleanResult(sql, resultColumn);
+        }
+        return false;
     }
 
     protected Object queryInstantFirstObjectResult(final String sql, final String resultColumn) {
