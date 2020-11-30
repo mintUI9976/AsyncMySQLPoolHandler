@@ -109,6 +109,18 @@ public int test() {
         return column != null ? result : -1;
     }
 ```
+##### ExecuteQueryInstantLastResultAsBooleanAsync:
+```java
+public boolean test() {
+        return this.asyncMySQLPoolHandler.executeQueryInstantLastResultAsBooleanAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn").join();
+    }
+```    
+##### ExecuteQueryInstantFirstResultAsBooleanAsync:
+```java
+public boolean test() {
+        return this.asyncMySQLPoolHandler.executeQueryInstantFirstResultAsBooleanAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn").join();
+    }
+```    
 ##### ExecuteQueryInstantNextResultAsync:
 ```java
 public boolean test() {

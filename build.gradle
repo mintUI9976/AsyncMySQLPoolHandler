@@ -6,7 +6,7 @@ plugins {
 apply plugin: 'maven'
 
 group 'de.mint'
-version 'v0.2.2'
+version 'v0.2.3'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
