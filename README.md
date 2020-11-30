@@ -19,7 +19,7 @@
 ```java
 <dependency>
   <groupId>com.github.mInT-runs</groupId>
-  <artifactId>JdbcPoolFrameworkHandler</artifactId>
+  <artifactId>AsyncMySQLPoolHandler</artifactId>
   <version>Tag</version>
 </dependency>
 ```
