@@ -42,7 +42,7 @@ private final AsyncMySQLPoolHandler asyncMySQLPoolHandler = new AsyncMySQLPoolHa
 ### ConfigPoolFramework
 ```java
 private final ConfigPoolFramework configPoolFramework = ConfigBuilder.getConfigBuilder().build(); // returns a default configuration
-// You can add more and more variables and you do not need to change all variables. The rest will be filled up with the default variables.
+// You do not have to change all values, the remaining values are filled with default values.
 ```
 ### OpenPool:
 ```java
