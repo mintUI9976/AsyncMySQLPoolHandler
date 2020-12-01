@@ -99,15 +99,15 @@ public int testQueryResult() {
 ##### ExecuteQueryInstantLastResultAsync:
 ```java
 public int test() {
-        final Integer column = (Integer) this.asyncMySQLPoolHandler.executeQueryInstantLastResultAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn").join();
-        return column != null ? result : -1;
+        final Integer result = (Integer) this.asyncMySQLPoolHandler.executeQueryInstantLastResultAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn").join();
+        return result != null ? result : -1;
     }
 ```
 ##### ExecuteQueryInstantFirstResultAsync:
 ```java
 public int test() {
-        final Integer column = (Integer) this.asyncMySQLPoolHandler.executeQueryInstantFirstResultAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn").join();
-        return column != null ? result : -1;
+        final Integer result = (Integer) this.asyncMySQLPoolHandler.executeQueryInstantFirstResultAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn").join();
+        return result != null ? result : -1;
     }
 ```
 ##### ExecuteQueryInstantLastResultAsBooleanAsync:
