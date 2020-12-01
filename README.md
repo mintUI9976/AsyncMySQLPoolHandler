@@ -67,7 +67,7 @@ private void closePool(){
 ### ExecuteQuery:
 ```java
 private void testQuery() {
-        this.asyncMySQLPoolHandler.executeQueryAsyncthis.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT * FROM `" + "yourTable" + "`;")).whenComplete((cachedRowSet, throwable) -> {
+        this.asyncMySQLPoolHandler.executeQueryAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT * FROM `" + "yourTable" + "`;")).whenComplete((cachedRowSet, throwable) -> {
             try {
                 final Collection<String> collection = new ArrayList<>();
                 while (cachedRowSet.next()) {
