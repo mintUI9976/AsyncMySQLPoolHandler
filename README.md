@@ -3,8 +3,15 @@
 
 [![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/mInT-runs/AsyncMySQLPoolHandler?include_prereleases&style=for-the-badge)](https://github.com/mInT-runs/AsyncMySQLPoolHandler/releases) ![GitHub lines)](https://img.shields.io/tokei/lines/github/mInT-runs/AsyncMySQLPoolHandler?color=yellow&style=for-the-badge) [![GitHub license](https://img.shields.io/github/license/mInT-runs/AsyncMySQLPoolHandler?style=for-the-badge)](https://github.com/mInT-runs/AsyncMySQLPoolHandler/blob/main/LICENSE) ![GitHub bytes)](https://img.shields.io/github/languages/code-size/mInT-runs/AsyncMySQLPoolHandler?color=orange&style=for-the-badge) ![GitHub language count](https://img.shields.io/github/languages/count/mInT-runs/AsyncMySQLPoolHandler?style=for-the-badge) [![GitHub stars](https://img.shields.io/github/stars/mInT-runs/AsyncMySQLPoolHandler?style=for-the-badge)](https://github.com/mInT-runs/AsyncMySQLPoolHandler/stargazers) 
 #### An simplify library to create jdbc pools via HikariCP. 
-#### The Statement/PreparedStatement methods are performed asynchronously.
+#### Statement/PreparedStatement methods are performed asynchronously.
 # Features
+- full asynchronously statement/preparedStatement methods
+- simple jdbc connector
+- simple configurator
+- default config available
+- instant query result via preparedStatement
+- multiple object update via preparedStatement
+- single update via statement
 # Implemented JDBC Frameworks
 #### [HikariCP](https://github.com/brettwooldridge/HikariCP)
 # Repository
