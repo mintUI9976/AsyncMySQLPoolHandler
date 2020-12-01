@@ -67,7 +67,7 @@ private void closePool(){
 ### ExecuteQuery:
 ```java
 private void testQuery() {
-        this.asyncMySQLPoolHandler.executeQueryAsync("SELECT * FROM `" + "yourTable" + "`;").whenComplete((cachedRowSet, throwable) -> {
+        this.asyncMySQLPoolHandler.executeQueryAsyncthis.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT * FROM `" + "yourTable" + "`;")).whenComplete((cachedRowSet, throwable) -> {
             try {
                 final Collection<String> collection = new ArrayList<>();
                 while (cachedRowSet.next()) {
@@ -86,7 +86,7 @@ private void testQuery() {
 ```java
 public int testQueryResult() {
         try {
-            final CachedRowSet resultSet = this.asyncMySQLPoolHandler.executeQueryAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';").join();
+            final CachedRowSet resultSet = this.asyncMySQLPoolHandler.executeQueryAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';")).join();
             if (resultSet.last()) {
                 final int test = resultSet.getInt("yourColumn");
                 resultSet.close();
@@ -106,40 +106,40 @@ public int testQueryResult() {
 ##### ExecuteQueryInstantLastResultAsync:
 ```java
 public int test() {
-        final Integer result = (Integer) this.asyncMySQLPoolHandler.executeQueryInstantLastResultAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn").join();
+        final Integer result = (Integer) this.asyncMySQLPoolHandler.executeQueryInstantLastResultAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn")).join();
         return result != null ? result : -1;
     }
 ```
 ##### ExecuteQueryInstantFirstResultAsync:
 ```java
 public int test() {
-        final Integer result = (Integer) this.asyncMySQLPoolHandler.executeQueryInstantFirstResultAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn").join();
+        final Integer result = (Integer) this.asyncMySQLPoolHandler.executeQueryInstantFirstResultAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn")).join();
         return result != null ? result : -1;
     }
 ```
 ##### ExecuteQueryInstantLastResultAsBooleanAsync:
 ```java
 public boolean test() {
-        return this.asyncMySQLPoolHandler.executeQueryInstantLastResultAsBooleanAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn").join();
+        return this.asyncMySQLPoolHandler.executeQueryInstantLastResultAsBooleanAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn")).join();
     }
 ```    
 ##### ExecuteQueryInstantFirstResultAsBooleanAsync:
 ```java
 public boolean test() {
-        return this.asyncMySQLPoolHandler.executeQueryInstantFirstResultAsBooleanAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn").join();
+        return this.asyncMySQLPoolHandler.executeQueryInstantFirstResultAsBooleanAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn")).join();
     }
 ```    
 ##### ExecuteQueryInstantNextResultAsync:
 ```java
 public boolean test() {
-        return this.asyncMySQLPoolHandler.executeQueryInstantNextResultAsync("SELECT * FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';").join();
+        return this.asyncMySQLPoolHandler.executeQueryInstantNextResultAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT * FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';")).join();
     }
 ```
 
 ### ExecuteUpdate with Statement:
 ```java
   private void testUpdate() {
-        this.asyncMySQLPoolHandler.executeUpdateAsync("INSERT INTO `" + "yourTable" + "` SET `yourColumn` = '" + "yourValue" + "';").whenComplete((aVoid, throwable) -> {
+        this.asyncMySQLPoolHandler.executeUpdateAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("INSERT INTO `" + "yourTable" + "` SET `yourColumn` = '" + "yourValue" + "';")).whenComplete((aVoid, throwable) -> {
             //now you can work with the result
         });
     }
@@ -147,7 +147,7 @@ public boolean test() {
 ### ExecuteUpdate with PreparedStatement:
 ```java
   private void testUpdate() {
-        this.asyncMySQLPoolHandler.executeUpdatePreparedStatementAsync("INSERT INTO `" + "yourTable" + "` (value1, value2, value3, value4) VALUES (?, ?, ?, ?)", value1,value2,value3,value4).whenComplete((aVoid, throwable) -> {
+        this.asyncMySQLPoolHandler.executeUpdatePreparedStatementAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("INSERT INTO `" + "yourTable" + "` (value1, value2, value3, value4) VALUES (?, ?, ?, ?)"), value1,value2,value3,value4).whenComplete((aVoid, throwable) -> {
             //now you can work with the result
         });
     }
