@@ -86,7 +86,7 @@ private void testQuery() {
 ```java
 public int testQueryResult(final String value) {
         try {
-            final CachedRowSet resultSet = this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + this.asyncMySQLPoolHandler.removeSQLInjectionPossibility(value) + "';").join();
+            final CachedRowSet resultSet = this.asyncMySQLPoolHandler.executeQueryAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + this.asyncMySQLPoolHandler.removeSQLInjectionPossibility(value) + "';").join();
             if (resultSet.last()) {
                 final int test = resultSet.getInt("yourColumn");
                 resultSet.close();
@@ -107,7 +107,7 @@ public int testQueryResult(final String value) {
 
 ```java
 public int test(final String value) {
-        final Integer result = (Integer) this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + this.asyncMySQLPoolHandler.removeSQLInjectionPossibility(value) + "';" , "yourColumn").join();
+        final Integer result = (Integer) this.asyncMySQLPoolHandler.executeQueryInstantLastResultAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + this.asyncMySQLPoolHandler.removeSQLInjectionPossibility(value) + "';" , "yourColumn").join();
         return result != null ? result : -1;
     }
 ```
