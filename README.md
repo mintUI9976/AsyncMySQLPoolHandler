@@ -67,7 +67,7 @@ private void closePool(){
 ### ExecuteQuery:
 ```java
 private void testQuery() {
-        this.asyncMySQLPoolHandler.executeQueryAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT * FROM `" + "yourTable" + "`;")).whenComplete((cachedRowSet, throwable) -> {
+        this.asyncMySQLPoolHandler.executeQueryAsync("SELECT * FROM `" + "yourTable" + "`;").whenComplete((cachedRowSet, throwable) -> {
             try {
                 final Collection<String> collection = new ArrayList<>();
                 while (cachedRowSet.next()) {
@@ -84,9 +84,9 @@ private void testQuery() {
 ### ReturnExecuteQuery:
 ##### ExecuteQueryAsync:
 ```java
-public int testQueryResult() {
+public int testQueryResult(final String value) {
         try {
-            final CachedRowSet resultSet = this.asyncMySQLPoolHandler.executeQueryAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';")).join();
+            final CachedRowSet resultSet = this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + this.asyncMySQLPoolHandler.removeSQLInjectionPossibility(value) + "';").join();
             if (resultSet.last()) {
                 final int test = resultSet.getInt("yourColumn");
                 resultSet.close();
@@ -104,50 +104,57 @@ public int testQueryResult() {
     }
 ```
 ##### ExecuteQueryInstantLastResultAsync:
+
 ```java
-public int test() {
-        final Integer result = (Integer) this.asyncMySQLPoolHandler.executeQueryInstantLastResultAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn")).join();
+public int test(final String value) {
+        final Integer result = (Integer) this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + this.asyncMySQLPoolHandler.removeSQLInjectionPossibility(value) + "';" , "yourColumn").join();
         return result != null ? result : -1;
     }
 ```
 ##### ExecuteQueryInstantFirstResultAsync:
+
 ```java
-public int test() {
-        final Integer result = (Integer) this.asyncMySQLPoolHandler.executeQueryInstantFirstResultAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn")).join();
+public int test(final String value) {
+        final Integer result = (Integer) this.asyncMySQLPoolHandler.executeQueryInstantFirstResultAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + this.asyncMySQLPoolHandler.removeSQLInjectionPossibility(value) + "';" , "yourColumn").join();
         return result != null ? result : -1;
     }
 ```
 ##### ExecuteQueryInstantLastResultAsBooleanAsync:
+
 ```java
-public boolean test() {
-        return this.asyncMySQLPoolHandler.executeQueryInstantLastResultAsBooleanAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn")).join();
+public boolean test(final String value) {
+        return this.asyncMySQLPoolHandler.executeQueryInstantLastResultAsBooleanAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + this.asyncMySQLPoolHandler.removeSQLInjectionPossibility(value) + "';" , "yourColumn").join();
     }
 ```    
 ##### ExecuteQueryInstantFirstResultAsBooleanAsync:
+
 ```java
-public boolean test() {
-        return this.asyncMySQLPoolHandler.executeQueryInstantFirstResultAsBooleanAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';" , "yourColumn")).join();
+public boolean test(final String value) {
+        return this.asyncMySQLPoolHandler.executeQueryInstantFirstResultAsBooleanAsync("SELECT `yourColumn` FROM `" + "yourTable" + "` WHERE `yourValue`= '" + this.asyncMySQLPoolHandler.removeSQLInjectionPossibility(value) + "';" , "yourColumn").join();
     }
 ```    
 ##### ExecuteQueryInstantNextResultAsync:
+
 ```java
-public boolean test() {
-        return this.asyncMySQLPoolHandler.executeQueryInstantNextResultAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("SELECT * FROM `" + "yourTable" + "` WHERE `yourValue`= '" + value + "';")).join();
+public boolean test(final String value) {
+        return this.asyncMySQLPoolHandler.executeQueryInstantNextResultAsync("SELECT * FROM `" + "yourTable" + "` WHERE `yourValue`= '" + this.asyncMySQLPoolHandler.removeSQLInjectionPossibility(value) + "';").join();
     }
 ```
 
 ### ExecuteUpdate with Statement:
+
 ```java
-  private void testUpdate() {
-        this.asyncMySQLPoolHandler.executeUpdateAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("INSERT INTO `" + "yourTable" + "` SET `yourColumn` = '" + "yourValue" + "';")).whenComplete((aVoid, throwable) -> {
+  private void testUpdate(final String yourValue) {
+        this.asyncMySQLPoolHandler.executeUpdateAsync("INSERT INTO `" + "yourTable" + "` SET `yourColumn` = '" + this.asyncMySQLPoolHandler.removeSQLInjectionPossibility(yourValue) + "';").whenComplete((aVoid, throwable) -> {
             //now you can work with the result
         });
     }
 ```
 ### ExecuteUpdate with PreparedStatement:
+
 ```java
-  private void testUpdate() {
-        this.asyncMySQLPoolHandler.executeUpdatePreparedStatementAsync(this.asyncMySQLPoolHandler.removeSQLInjectionPossibility("INSERT INTO `" + "yourTable" + "` (value1, value2, value3, value4) VALUES (?, ?, ?, ?)"), value1,value2,value3,value4).whenComplete((aVoid, throwable) -> {
+  private void testUpdate(final String... value) {
+        this.asyncMySQLPoolHandler.executeUpdatePreparedStatementAsync("INSERT INTO `" + "yourTable" + "` (value1, value2, value3, value4) VALUES (?, ?, ?, ?)", value1,value2,value3,value4).whenComplete((aVoid, throwable) -> {
             //now you can work with the result
         });
     }
