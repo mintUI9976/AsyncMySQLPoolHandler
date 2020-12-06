@@ -14,7 +14,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@SuppressWarnings("ALL")
 public class AsyncMySQLPoolHandler extends PoolFramework {
 
     private final String hostname;
@@ -104,35 +103,35 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
         }
     }
 
-    public CompletableFuture<Void> executeUpdateAsync(@Language("MYSQL") @NotNull final String sql) {
+    public CompletableFuture<Void> executeUpdateAsync(@Language("MySQL") @NotNull final String sql) {
         return CompletableFuture.runAsync(() -> this.executeUpdateHandlerWithStatement(sql));
     }
 
-    public CompletableFuture<Void> executeUpdatePreparedStatementAsync(@Language("MYSQL") @NotNull final String sql, @NotNull final Object... values) {
+    public CompletableFuture<Void> executeUpdatePreparedStatementAsync(@Language("MySQL") @NotNull final String sql, @NotNull final Object... values) {
         return CompletableFuture.runAsync(() -> this.executeUpdateHandlerWithPreparedStatement(sql, values));
     }
 
-    public CompletableFuture<CachedRowSet> executeQueryAsync(@Language("MYSQL") @NotNull final String sql) {
+    public CompletableFuture<CachedRowSet> executeQueryAsync(@Language("MySQL") @NotNull final String sql) {
         return CompletableFuture.supplyAsync(() -> this.queryCacheRowSetResult(sql));
     }
 
-    public CompletableFuture<Object> executeQueryInstantLastResultAsync(@Language("MYSQL") @NotNull final String sql, @NotNull final String resultColumn) {
+    public CompletableFuture<Object> executeQueryInstantLastResultAsync(@Language("MySQL") @NotNull final String sql, @NotNull final String resultColumn) {
         return CompletableFuture.supplyAsync(() -> this.queryInstantLastObjectResult(sql, resultColumn));
     }
 
-    public CompletableFuture<Object> executeQueryInstantFirstResultAsync(@Language("MYSQL") @NotNull final String sql, @NotNull final String resultColumn) {
+    public CompletableFuture<Object> executeQueryInstantFirstResultAsync(@Language("MySQL") @NotNull final String sql, @NotNull final String resultColumn) {
         return CompletableFuture.supplyAsync(() -> this.queryInstantFirstObjectResult(sql, resultColumn));
     }
 
-    public CompletableFuture<Boolean> executeQueryInstantLastResultAsBooleanAsync(@Language("MYSQL") @NotNull final String sql, @NotNull final String resultColumn) {
+    public CompletableFuture<Boolean> executeQueryInstantLastResultAsBooleanAsync(@Language("MySQL") @NotNull final String sql, @NotNull final String resultColumn) {
         return CompletableFuture.supplyAsync(() -> this.queryInstantLastBooleanResult(sql, resultColumn));
     }
 
-    public CompletableFuture<Boolean> executeQueryInstantFirstResultAsBooleanAsync(@Language("MYSQL") @NotNull final String sql, @NotNull final String resultColumn) {
+    public CompletableFuture<Boolean> executeQueryInstantFirstResultAsBooleanAsync(@Language("MySQL") @NotNull final String sql, @NotNull final String resultColumn) {
         return CompletableFuture.supplyAsync(() -> this.queryInstantFirstBooleanResult(sql, resultColumn));
     }
 
-    public CompletableFuture<Boolean> executeQueryInstantNextResultAsync(@Language("MYSQL") @NotNull final String sql) {
+    public CompletableFuture<Boolean> executeQueryInstantNextResultAsync(@Language("MySQL") @NotNull final String sql) {
         return CompletableFuture.supplyAsync(() -> this.queryInstantNextBooleanResult(sql));
     }
 
