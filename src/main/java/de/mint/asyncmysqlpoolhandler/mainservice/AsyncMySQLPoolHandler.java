@@ -112,7 +112,7 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
         return CompletableFuture.runAsync(() -> this.executeUpdateHandlerWithPreparedStatement(sql, values));
     }
 
-    public CompletableFuture<CachedRowSet> executeQueryAsync(@NotNull final String sql) {
+    public CompletableFuture<CachedRowSet> executeQueryAsync(@Language("MYSQL") @NotNull final String sql) {
         return CompletableFuture.supplyAsync(() -> this.queryCacheRowSetResult(sql));
     }
 
