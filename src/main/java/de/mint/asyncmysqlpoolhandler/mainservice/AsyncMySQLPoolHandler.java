@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@SuppressWarnings("unchecked")
 public class AsyncMySQLPoolHandler extends PoolFramework {
 
     private final String hostname;
@@ -103,39 +104,39 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
         }
     }
 
-    public CompletableFuture<Void> executeUpdateAsync(@Language("MySQL") @NotNull final String sql) {
-        return CompletableFuture.runAsync(() -> this.executeUpdateHandlerWithStatement(sql));
+    public CompletableFuture<Void> executeUpdateAsync(@Language("MySQL") final String sql) {
+        return CompletableFuture.runAsync(() -> this.executeUpdateHandlerWithStatementSync(sql));
     }
 
-    public CompletableFuture<Void> executeUpdatePreparedStatementAsync(@Language("MySQL") @NotNull final String sql, @NotNull final Object... values) {
-        return CompletableFuture.runAsync(() -> this.executeUpdateHandlerWithPreparedStatement(sql, values));
+    public CompletableFuture<Void> executeUpdatePreparedStatementAsync(@Language("MySQL") final String sql, @NotNull final Object... values) {
+        return CompletableFuture.runAsync(() -> this.executeUpdateHandlerWithPreparedStatementSync(sql, values));
     }
 
-    public CompletableFuture<CachedRowSet> executeQueryAsync(@Language("MySQL") @NotNull final String sql) {
-        return CompletableFuture.supplyAsync(() -> this.queryCacheRowSetResult(sql));
+    public CompletableFuture<CachedRowSet> executeQueryAsync(@Language("MySQL") final String sql) {
+        return CompletableFuture.supplyAsync(() -> this.queryCacheRowSetResultSync(sql));
     }
 
-    public CompletableFuture<Object> executeQueryInstantLastResultAsync(@Language("MySQL") @NotNull final String sql, @NotNull final String resultColumn) {
-        return CompletableFuture.supplyAsync(() -> this.queryInstantLastObjectResult(sql, resultColumn));
+    public <T> CompletableFuture<T> executeQueryInstantLastResultAsync(@Language("MySQL") final String sql, @NotNull final String resultColumn) {
+        return CompletableFuture.supplyAsync(() -> this.queryInstantLastObjectResultSync(sql, resultColumn));
     }
 
-    public CompletableFuture<Object> executeQueryInstantFirstResultAsync(@Language("MySQL") @NotNull final String sql, @NotNull final String resultColumn) {
-        return CompletableFuture.supplyAsync(() -> this.queryInstantFirstObjectResult(sql, resultColumn));
+    public <T> CompletableFuture<T> executeQueryInstantFirstResultAsync(@Language("MySQL") final String sql, @NotNull final String resultColumn) {
+        return CompletableFuture.supplyAsync(() -> this.queryInstantFirstObjectResultSync(sql, resultColumn));
     }
 
-    public CompletableFuture<Boolean> executeQueryInstantLastResultAsBooleanAsync(@Language("MySQL") @NotNull final String sql, @NotNull final String resultColumn) {
-        return CompletableFuture.supplyAsync(() -> this.queryInstantLastBooleanResult(sql, resultColumn));
+    public CompletableFuture<Boolean> executeQueryInstantLastResultAsBooleanAsync(@Language("MySQL") final String sql, @NotNull final String resultColumn) {
+        return CompletableFuture.supplyAsync(() -> this.queryInstantLastBooleanResultSync(sql, resultColumn));
     }
 
-    public CompletableFuture<Boolean> executeQueryInstantFirstResultAsBooleanAsync(@Language("MySQL") @NotNull final String sql, @NotNull final String resultColumn) {
-        return CompletableFuture.supplyAsync(() -> this.queryInstantFirstBooleanResult(sql, resultColumn));
+    public CompletableFuture<Boolean> executeQueryInstantFirstResultAsBooleanAsync(@Language("MySQL") final String sql, @NotNull final String resultColumn) {
+        return CompletableFuture.supplyAsync(() -> this.queryInstantFirstBooleanResultSync(sql, resultColumn));
     }
 
-    public CompletableFuture<Boolean> executeQueryInstantNextResultAsync(@Language("MySQL") @NotNull final String sql) {
-        return CompletableFuture.supplyAsync(() -> this.queryInstantNextBooleanResult(sql));
+    public CompletableFuture<Boolean> executeQueryInstantNextResultAsync(@Language("MySQL") final String sql) {
+        return CompletableFuture.supplyAsync(() -> this.queryInstantNextBooleanResultSync(sql));
     }
 
-    protected void executeUpdateHandlerWithStatement(final String sql) {
+    protected void executeUpdateHandlerWithStatementSync(final String sql) {
         if (this.isPoolOpen()) {
             if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
                 try (final Connection connection = this.hikariDataSource.getConnection(); final Statement statement = connection.createStatement()) {
@@ -146,12 +147,12 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
             }
         } else {
             if (this.closePool() && this.openPool()) {
-                this.executeUpdateHandlerWithStatement(sql);
+                this.executeUpdateHandlerWithStatementSync(sql);
             }
         }
     }
 
-    protected void executeUpdateHandlerWithPreparedStatement(final String sql, final Object... values) {
+    protected void executeUpdateHandlerWithPreparedStatementSync(final String sql, final Object... values) {
         if (this.isPoolOpen()) {
             if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
                 try (final Connection connection = this.hikariDataSource.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -165,12 +166,12 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
             }
         } else {
             if (this.closePool() && this.openPool()) {
-                this.executeUpdateHandlerWithPreparedStatement(sql, values);
+                this.executeUpdateHandlerWithPreparedStatementSync(sql, values);
             }
         }
     }
 
-    protected CachedRowSet queryCacheRowSetResult(final String sql) {
+    protected CachedRowSet queryCacheRowSetResultSync(final String sql) {
         if (this.isPoolOpen()) {
             if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
                 try (final Connection connection = this.hikariDataSource.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -186,12 +187,12 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
                 }
             }
         } else {
-            return this.closePool() && this.openPool() ? this.queryCacheRowSetResult(sql) : null;
+            return this.closePool() && this.openPool() ? this.queryCacheRowSetResultSync(sql) : null;
         }
         return null;
     }
 
-    protected Object queryInstantLastObjectResult(final String sql, final String resultColumn) {
+    protected <T> T queryInstantLastObjectResultSync(final String sql, final String resultColumn) {
         if (this.isPoolOpen()) {
             if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
                 try (final Connection connection = this.hikariDataSource.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -203,7 +204,7 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
                     if (cachedRowSet.last()) {
                         final Object object = cachedRowSet.getObject(resultColumn);
                         cachedRowSet.close();
-                        return object;
+                        return (T) object;
                     } else {
                         cachedRowSet.close();
                         return null;
@@ -214,12 +215,12 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
                 }
             }
         } else {
-            return this.closePool() && this.openPool() ? this.queryInstantLastObjectResult(sql, resultColumn) : null;
+            return this.closePool() && this.openPool() ? this.queryInstantLastObjectResultSync(sql, resultColumn) : null;
         }
         return null;
     }
 
-    protected boolean queryInstantLastBooleanResult(final String sql, final String resultColumn) {
+    protected boolean queryInstantLastBooleanResultSync(final String sql, final String resultColumn) {
         if (this.isPoolOpen()) {
             if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
                 try (final Connection connection = this.hikariDataSource.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -242,12 +243,12 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
                 }
             }
         } else {
-            return (this.closePool() && this.openPool()) && this.queryInstantLastBooleanResult(sql, resultColumn);
+            return (this.closePool() && this.openPool()) && this.queryInstantLastBooleanResultSync(sql, resultColumn);
         }
         return false;
     }
 
-    protected boolean queryInstantFirstBooleanResult(final String sql, final String resultColumn) {
+    protected boolean queryInstantFirstBooleanResultSync(final String sql, final String resultColumn) {
         if (this.isPoolOpen()) {
             if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
                 try (final Connection connection = this.hikariDataSource.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -270,12 +271,12 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
                 }
             }
         } else {
-            return (this.closePool() && this.openPool()) && this.queryInstantFirstBooleanResult(sql, resultColumn);
+            return (this.closePool() && this.openPool()) && this.queryInstantFirstBooleanResultSync(sql, resultColumn);
         }
         return false;
     }
 
-    protected Object queryInstantFirstObjectResult(final String sql, final String resultColumn) {
+    public <T> T queryInstantFirstObjectResultSync(final String sql, final String resultColumn) {
         if (this.isPoolOpen()) {
             if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
                 try (final Connection connection = this.hikariDataSource.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -287,7 +288,7 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
                     if (cachedRowSet.first()) {
                         final Object object = cachedRowSet.getObject(resultColumn);
                         cachedRowSet.close();
-                        return object;
+                        return (T) object;
                     } else {
                         cachedRowSet.close();
                         return null;
@@ -298,12 +299,12 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
                 }
             }
         } else {
-            return this.closePool() && this.openPool() ? this.queryInstantFirstObjectResult(sql, resultColumn) : null;
+            return this.closePool() && this.openPool() ? this.queryInstantFirstObjectResultSync(sql, resultColumn) : null;
         }
         return null;
     }
 
-    protected boolean queryInstantNextBooleanResult(final String sql) {
+    protected boolean queryInstantNextBooleanResultSync(final String sql) {
         if (this.isPoolOpen()) {
             if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
                 try (final Connection connection = this.hikariDataSource.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -321,10 +322,8 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
                 }
             }
         } else {
-            return (this.closePool() && this.openPool()) && this.queryInstantNextBooleanResult(sql);
+            return (this.closePool() && this.openPool()) && this.queryInstantNextBooleanResultSync(sql);
         }
         return false;
     }
-
-
 }
