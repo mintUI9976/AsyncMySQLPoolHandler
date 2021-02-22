@@ -26,7 +26,7 @@
 # Dependency
 ```java
 <dependency>
-  <groupId>com.github.mInT-runs</groupId>
+  <groupId>com.github.mintUI9976</groupId>
   <artifactId>AsyncMySQLPoolHandler</artifactId>
   <version>Tag</version>
 </dependency>
