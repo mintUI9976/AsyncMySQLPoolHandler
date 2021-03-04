@@ -21,6 +21,7 @@ public class ConfigPoolFramework {
     private int minimumIdle = 5;
     private long maxLifetime = 180000;
     private long connectionTimeout = 30000;
+    private boolean allowPublicKeyRetrieval = true;
 
     void setMaximumPoolSize(final int maximumPoolSize) {
         this.maximumPoolSize = maximumPoolSize;
@@ -174,4 +175,11 @@ public class ConfigPoolFramework {
         return this.maximumPoolSize;
     }
 
+    public void setAllowPublicKeyRetrieval(boolean allowPublicKeyRetrieval) {
+        this.allowPublicKeyRetrieval = allowPublicKeyRetrieval;
+    }
+
+    public boolean isAllowPublicKeyRetrieval() {
+        return allowPublicKeyRetrieval;
+    }
 }
