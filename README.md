@@ -12,6 +12,7 @@
 - instant query result via preparedStatement
 - multiple object update via preparedStatement
 - single update via statement
+- add selection PublicKeyRetrival
 # Implemented JDBC Frameworks
 #### [HikariCP](https://github.com/brettwooldridge/HikariCP)
 # Repository
