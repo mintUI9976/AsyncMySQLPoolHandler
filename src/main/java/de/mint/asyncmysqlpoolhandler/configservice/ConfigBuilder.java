@@ -100,6 +100,11 @@ public class ConfigBuilder {
         return this;
     }
 
+    public ConfigBuilder setAllowPublicKeyRetrival(boolean allowed) {
+        this.configDataSource.setAllowPublicKeyRetrieval(true);
+        return this;
+    }
+
     public ConfigPoolFramework build() {
         return this.configDataSource;
     }
