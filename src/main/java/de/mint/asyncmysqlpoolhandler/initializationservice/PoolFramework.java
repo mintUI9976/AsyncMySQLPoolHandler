@@ -27,6 +27,8 @@ public abstract class PoolFramework {
         hikariConfig.addDataSourceProperty("tcpKeepAlive", String.valueOf(configPoolFramework.isTcpKeepAlive()));
         hikariConfig.addDataSourceProperty("autoReconnect", String.valueOf(configPoolFramework.isAutoReconnect()));
         hikariConfig.addDataSourceProperty("allowPublicKeyRetrieval", String.valueOf(configPoolFramework.isAllowPublicKeyRetrieval()));
+        hikariConfig.addDataSourceProperty("characterEncoding", String.valueOf(configPoolFramework.getCharacterEncoding()));
+        hikariConfig.addDataSourceProperty("useUnicode", String.valueOf(configPoolFramework.isUseUnicode()));
         hikariConfig.setMaximumPoolSize(configPoolFramework.getMaximumPoolSize());
         hikariConfig.setMaxLifetime(configPoolFramework.getMaxLifetime());
         hikariConfig.setMinimumIdle(configPoolFramework.getMinimumIdle());

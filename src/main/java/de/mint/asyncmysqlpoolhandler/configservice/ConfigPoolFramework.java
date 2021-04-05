@@ -22,6 +22,25 @@ public class ConfigPoolFramework {
     private long maxLifetime = 180000;
     private long connectionTimeout = 30000;
     private boolean allowPublicKeyRetrieval = true;
+    private String characterEncoding = "utf8";
+
+    public String getCharacterEncoding() {
+        return characterEncoding;
+    }
+
+    public void setCharacterEncoding(String characterEncoding) {
+        this.characterEncoding = characterEncoding;
+    }
+
+    public boolean isUseUnicode() {
+        return useUnicode;
+    }
+
+    public void setUseUnicode(boolean useUnicode) {
+        this.useUnicode = useUnicode;
+    }
+
+    private boolean useUnicode = true;
 
     void setMaximumPoolSize(final int maximumPoolSize) {
         this.maximumPoolSize = maximumPoolSize;
