@@ -21,27 +21,19 @@ public class ConfigPoolFramework {
     private int minimumIdle = 5;
     private long maxLifetime = 180000;
     private long connectionTimeout = 30000;
-    private boolean allowPublicKeyRetrieval = true;
+    private boolean allowPublicKeyRetrieval = false;
+    private boolean useUnicode = true;
     private String characterEncoding = "utf8";
 
-    public String getCharacterEncoding() {
-        return characterEncoding;
-    }
 
-    public void setCharacterEncoding(String characterEncoding) {
+    void setCharacterEncoding(final String characterEncoding) {
         this.characterEncoding = characterEncoding;
     }
 
-    public boolean isUseUnicode() {
-        return useUnicode;
-    }
-
-    public void setUseUnicode(boolean useUnicode) {
+    void setUseUnicode(final boolean useUnicode) {
         this.useUnicode = useUnicode;
     }
-
-    private boolean useUnicode = true;
-
+    
     void setMaximumPoolSize(final int maximumPoolSize) {
         this.maximumPoolSize = maximumPoolSize;
     }
@@ -50,7 +42,7 @@ public class ConfigPoolFramework {
         this.cachePrepStmts = cachePrepStmts;
     }
 
-    public void setUseSSL(final boolean useSSL) {
+    void setUseSSL(final boolean useSSL) {
         this.useSSL = useSSL;
     }
 
@@ -100,6 +92,14 @@ public class ConfigPoolFramework {
 
     void setPrepStmtCacheSqlLimit(final int prepStmtCacheSqlLimit) {
         this.prepStmtCacheSqlLimit = prepStmtCacheSqlLimit;
+    }
+
+    void setAllowPublicKeyRetrieval(final boolean allowPublicKeyRetrieval) {
+        this.allowPublicKeyRetrieval = allowPublicKeyRetrieval;
+    }
+
+    public boolean isUseUnicode() {
+        return this.useUnicode;
     }
 
     void setMaxLifetime(final long maxLifetime) {
@@ -190,15 +190,16 @@ public class ConfigPoolFramework {
         return this.minimumIdle;
     }
 
+    public String getCharacterEncoding() {
+        return this.characterEncoding;
+    }
+
     public int getMaximumPoolSize() {
         return this.maximumPoolSize;
     }
 
-    public void setAllowPublicKeyRetrieval(boolean allowPublicKeyRetrieval) {
-        this.allowPublicKeyRetrieval = allowPublicKeyRetrieval;
-    }
 
     public boolean isAllowPublicKeyRetrieval() {
-        return allowPublicKeyRetrieval;
+        return this.allowPublicKeyRetrieval;
     }
 }

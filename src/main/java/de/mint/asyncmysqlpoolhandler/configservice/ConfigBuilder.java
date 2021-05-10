@@ -100,8 +100,13 @@ public class ConfigBuilder {
         return this;
     }
 
-    public ConfigBuilder setAllowPublicKeyRetrival(boolean allowed) {
-        this.configDataSource.setAllowPublicKeyRetrieval(true);
+    public ConfigBuilder setAllowPublicKeyRetrieval(final boolean allowed) {
+        this.configDataSource.setAllowPublicKeyRetrieval(allowed);
+        return this;
+    }
+
+    public ConfigBuilder setUseUnicode(final boolean allowed) {
+        this.configDataSource.setUseUnicode(allowed);
         return this;
     }
 
@@ -110,6 +115,6 @@ public class ConfigBuilder {
     }
 
     public static ConfigBuilder getConfigBuilder() {
-        return configBuilder;
+        return ConfigBuilder.configBuilder;
     }
 }
