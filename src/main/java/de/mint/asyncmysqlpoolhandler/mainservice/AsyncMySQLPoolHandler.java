@@ -136,6 +136,10 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
         return CompletableFuture.supplyAsync(() -> this.queryInstantNextBooleanResultSync(sql));
     }
 
+    public CompletableFuture<CachedRowSet> executeQueryHandlerWithPreparedStatementAsync(@Language("MySQL") final String sql, @NotNull final Object... values) {
+        return CompletableFuture.supplyAsync(() -> this.executeQueryHandlerWithPreparedStatementSync(sql, values));
+    }
+
     protected void executeUpdateHandlerWithStatementSync(final String sql) {
         if (this.isPoolOpen()) {
             if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
@@ -169,6 +173,30 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
                 this.executeUpdateHandlerWithPreparedStatementSync(sql, values);
             }
         }
+    }
+
+    protected CachedRowSet executeQueryHandlerWithPreparedStatementSync(final String sql, final Object... values) {
+        if (this.isPoolOpen()) {
+            if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
+                try (final Connection connection = this.hikariDataSource.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                    for (int i = 0; i < values.length; i++) {
+                        preparedStatement.setObject(i + 1, values[i]);
+                    }
+                    final ResultSet resultSet = preparedStatement.executeQuery();
+                    final CachedRowSet cachedRowSet = RowSetProvider.newFactory().createCachedRowSet();
+                    cachedRowSet.populate(resultSet);
+                    preparedStatement.close();
+                    resultSet.close();
+                    return cachedRowSet;
+                } catch (final SQLException exception) {
+                    exception.printStackTrace();
+                    return null;
+                }
+            }
+        } else {
+            return this.closePool() && this.openPool() ? this.executeQueryHandlerWithPreparedStatementSync(sql, values) : null;
+        }
+        return null;
     }
 
     protected CachedRowSet queryCacheRowSetResultSync(final String sql) {
