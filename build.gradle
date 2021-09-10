@@ -6,7 +6,7 @@ plugins {
 apply plugin: 'maven'
 
 group 'de.mint'
-version 'v0.3.6'
+version 'v0.3.7'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     compile(group: 'mysql', name: 'mysql-connector-java', version: '8.0.26')
-    compile(group: 'com.zaxxer', name: 'HikariCP', version: '5.0.0')
+    compile(group: 'com.zaxxer', name: 'HikariCP', version: '4.0.3')
     compile(group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.9.0')
     compile(group: 'org.jetbrains', name: 'annotations', version: '22.0.0')
 }
