@@ -354,4 +354,16 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
         }
         return false;
     }
+
+    public Object getConnection() throws SQLException {
+        if (this.isPoolOpen()) {
+            if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
+                return this.hikariDataSource.getConnection();
+            }
+        } else {
+            return this.closePool() && this.openPool() ? this.getConnection() : null;
+        }
+
+        return null;
+    }
 }
