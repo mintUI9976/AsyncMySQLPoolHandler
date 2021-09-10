@@ -110,6 +110,11 @@ public class ConfigBuilder {
         return this;
     }
 
+    public ConfigBuilder setServerTimezone(final String timezone) {
+        this.configDataSource.setServerTimezone(timezone);
+        return this;
+    }
+
     public ConfigPoolFramework build() {
         return this.configDataSource;
     }
