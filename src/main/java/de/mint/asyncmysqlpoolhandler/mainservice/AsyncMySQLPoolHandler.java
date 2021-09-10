@@ -4,12 +4,15 @@ import com.zaxxer.hikari.HikariDataSource;
 import de.mint.asyncmysqlpoolhandler.configservice.ConfigPoolFramework;
 import de.mint.asyncmysqlpoolhandler.enumservice.EnumPoolFramework;
 import de.mint.asyncmysqlpoolhandler.initializationservice.PoolFramework;
+import de.spark61.medlar.Medlar;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
+import java.lang.reflect.Type;
 import java.sql.*;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +20,7 @@ import java.util.logging.Logger;
 @SuppressWarnings("unchecked")
 public class AsyncMySQLPoolHandler extends PoolFramework {
 
+    private final Medlar medlar;
     private final String hostname;
     private final int port;
     private final String username;
@@ -41,6 +45,7 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
     }
 
     public AsyncMySQLPoolHandler(@NotNull final String hostname, final int port, @NotNull final String username, @NotNull final String password, @NotNull final String database, @NotNull final EnumPoolFramework enumPoolFramework, @NotNull final ConfigPoolFramework configPoolFramework) {
+        this.medlar = new Medlar();
         this.hostname = hostname;
         this.port = port;
         this.username = username;
@@ -104,12 +109,38 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
         }
     }
 
+    public CompletableFuture<Void> executeUpdateSerializedAsync(@Language("MySQL") final String sql, Object object) {
+        return CompletableFuture.runAsync(() -> this.executeUpdateHandlerWithStatementSync(sql, object));
+    }
+
     public CompletableFuture<Void> executeUpdateAsync(@Language("MySQL") final String sql) {
         return CompletableFuture.runAsync(() -> this.executeUpdateHandlerWithStatementSync(sql));
     }
 
     public CompletableFuture<Void> executeUpdatePreparedStatementAsync(@Language("MySQL") final String sql, @NotNull final Object... values) {
         return CompletableFuture.runAsync(() -> this.executeUpdateHandlerWithPreparedStatementSync(sql, values));
+    }
+
+    public <T> CompletableFuture<List<T>> executeQuerySerializedAsync(@Language("MySQL") final String sql, Type type) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return medlar.deserializeObject(this.queryCacheRowSetResultSync(sql), type);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
+        });
+    }
+
+    public <T> CompletableFuture<List<T>> executeQuerySerializedAsync(@Language("MySQL") final String sql, Class<T> tClass) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return medlar.deserializeObject(this.queryCacheRowSetResultSync(sql), tClass);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
+        });
     }
 
     public CompletableFuture<CachedRowSet> executeQueryAsync(@Language("MySQL") final String sql) {
@@ -146,6 +177,22 @@ public class AsyncMySQLPoolHandler extends PoolFramework {
                 try (final Connection connection = this.hikariDataSource.getConnection(); final Statement statement = connection.createStatement()) {
                     statement.executeUpdate(sql);
                 } catch (final SQLException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        } else {
+            if (this.closePool() && this.openPool()) {
+                this.executeUpdateHandlerWithStatementSync(sql);
+            }
+        }
+    }
+
+    protected void executeUpdateHandlerWithStatementSync(@Language("MySQL") final String sql, Object object) {
+        if (this.isPoolOpen()) {
+            if (this.enumPoolFramework == EnumPoolFramework.HIKARICP) {
+                try (final Connection connection = this.hikariDataSource.getConnection(); final Statement statement = medlar.serializeObject(connection, sql, object)) {
+                    statement.executeUpdate(sql);
+                } catch (final SQLException | IllegalAccessException exception) {
                     exception.printStackTrace();
                 }
             }
