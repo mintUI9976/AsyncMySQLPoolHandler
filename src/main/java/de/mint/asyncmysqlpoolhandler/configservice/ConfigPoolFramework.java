@@ -24,6 +24,7 @@ public class ConfigPoolFramework {
     private boolean allowPublicKeyRetrieval = false;
     private boolean useUnicode = true;
     private String characterEncoding = "utf8";
+    private String timezone = "GMT+1";
 
 
     void setCharacterEncoding(final String characterEncoding) {
@@ -96,6 +97,10 @@ public class ConfigPoolFramework {
 
     void setAllowPublicKeyRetrieval(final boolean allowPublicKeyRetrieval) {
         this.allowPublicKeyRetrieval = allowPublicKeyRetrieval;
+    }
+
+    public void setServerTimezone(String timezone) {
+        this.timezone = timezone;
     }
 
     public boolean isUseUnicode() {
@@ -198,6 +203,9 @@ public class ConfigPoolFramework {
         return this.maximumPoolSize;
     }
 
+    public String getServerTimezone() {
+        return timezone;
+    }
 
     public boolean isAllowPublicKeyRetrieval() {
         return this.allowPublicKeyRetrieval;

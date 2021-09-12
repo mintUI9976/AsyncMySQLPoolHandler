@@ -29,6 +29,7 @@ public abstract class PoolFramework {
         hikariConfig.addDataSourceProperty("allowPublicKeyRetrieval", String.valueOf(configPoolFramework.isAllowPublicKeyRetrieval()));
         hikariConfig.addDataSourceProperty("characterEncoding", String.valueOf(configPoolFramework.getCharacterEncoding()));
         hikariConfig.addDataSourceProperty("useUnicode", String.valueOf(configPoolFramework.isUseUnicode()));
+        hikariConfig.addDataSourceProperty("serverTimezone", configPoolFramework.getServerTimezone());
         hikariConfig.setMaximumPoolSize(configPoolFramework.getMaximumPoolSize());
         hikariConfig.setMaxLifetime(configPoolFramework.getMaxLifetime());
         hikariConfig.setMinimumIdle(configPoolFramework.getMinimumIdle());
