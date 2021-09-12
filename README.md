@@ -1,7 +1,7 @@
 # AsyncMySQLPoolHandler
 [![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/open-source.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
 
-[![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/mintUI9976/AsyncMySQLPoolHandler?include_prereleases&style=for-the-badge)](https://github.com/mintUI9976/AsyncMySQLPoolHandler/releases) ![GitHub lines)](https://img.shields.io/tokei/lines/github/mintUI9976/AsyncMySQLPoolHandler?color=yellow&style=for-the-badge) [![GitHub license](https://img.shields.io/github/license/mintUI9976/AsyncMySQLPoolHandler?style=for-the-badge)](https://github.com/mintUI9976/AsyncMySQLPoolHandler/blob/main/LICENSE) ![GitHub bytes)](https://img.shields.io/github/languages/code-size/mintUI9976/AsyncMySQLPoolHandler?color=orange&style=for-the-badge) ![GitHub language count](https://img.shields.io/github/languages/count/mintUI9976/AsyncMySQLPoolHandler?style=for-the-badge) [![GitHub stars](https://img.shields.io/github/stars/mintUI9976/AsyncMySQLPoolHandler?style=for-the-badge)](https://github.com/mintUI9976/AsyncMySQLPoolHandler/stargazers) 
+[![GitHub release](https://img.shields.io/badge/RELEASE-v1.0.1-Green?style=for-the-badge)](https://gitlab.zyonicsoftware.com/mintUI9976/sqlpoolfactory/-/packages)   [![GitHub stars](https://img.shields.io/github/stars/mintUI9976/AsyncMySQLPoolHandler?style=for-the-badge)](https://github.com/mintUI9976/AsyncMySQLPoolHandler/stargazers) 
 #### An simplify library to create jdbc pools via HikariCP. 
 #### Statement/PreparedStatement methods are performed asynchronously.
 # Features
@@ -16,20 +16,32 @@
 # Implemented JDBC Frameworks
 #### [HikariCP](https://github.com/brettwooldridge/HikariCP)
 # Repository
-```java
+```xml
 <repositories>
-   <repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-   </repository>
+<repository>
+<id>gitlab-maven</id>
+<url>https://gitlab.zyonicsoftware.com/api/v4/projects/211/packages/maven</url>
+</repository>
 </repositories>
+
+<distributionManagement>
+<repository>
+<id>gitlab-maven</id>
+<url>https://gitlab.zyonicsoftware.com/api/v4/projects/211/packages/maven</url>
+</repository>
+
+<snapshotRepository>
+<id>gitlab-maven</id>
+<url>https://gitlab.zyonicsoftware.com/api/v4/projects/211/packages/maven</url>
+</snapshotRepository>
+</distributionManagement>
 ```
 # Dependency
-```java
+```xml
 <dependency>
-  <groupId>com.github.mintUI9976</groupId>
-  <artifactId>AsyncMySQLPoolHandler</artifactId>
-  <version>Tag</version>
+<groupId>de.mint.asyncmysqlpoolhandler</groupId>
+<artifactId>AsyncMySQLPoolHandler</artifactId>
+<version>Tag@Gitlab</version>
 </dependency>
 ```
 # Utilization
